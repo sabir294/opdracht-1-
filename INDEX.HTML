@@ -1,0 +1,114 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Systeem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #166fe5;
+        }
+        .error-message {
+            color: #ff0000;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Inloggen</h2>
+        <form id="loginForm" onsubmit="return validateLogin(event)">
+            <div class="form-group">
+                <label for="username">Gebruikersnaam:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Wachtwoord:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Inloggen</button>
+            <div id="errorMessage" class="error-message">
+                Ongeldige gebruikersnaam of wachtwoord
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Vooraf ingestelde gebruikers
+        const users = [
+            { username: "user1", password: "pass1", name: "John Doe" },
+            { username: "user2", password: "pass2", name: "Jane Smith" },
+            { username: "admin", password: "admin123", name: "Administrator" }
+        ];
+
+        function validateLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Zoek de gebruiker
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Succesvol inloggen
+                errorMessage.style.display = 'none';
+                // Sla de gebruikersnaam op in sessionStorage
+                sessionStorage.setItem('currentUser', user.name);
+                // Redirect naar dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                // Toon foutmelding
+                errorMessage.style.display = 'block';
+            }
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
